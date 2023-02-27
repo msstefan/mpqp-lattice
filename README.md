@@ -1,12 +1,8 @@
 # mpqplattice
 
 This C-toolbox mpqplattice is a C++ implementation which solves the explicit Model Predictive Control (eMPC) problem, which is essentially a multi-parametric quadratic programs (mp-QP) formulated as
-$
-\begin{align}
-    \mathbf u^\star_N(x_0) = \arg &\min_{\mathbf u_N} \frac{1}{2} \mathbf u_N^\top \tilde Q \mathbf u_N + x_0^\top \tilde H \mathbf u_N\\
-    \text{s.t. }& A \mathbf u_N \leq F x_0+b.
-\end{align} 
-$
+$$(1a)\quad \mathbf u^\star_N(x_0) = \arg \min_{\mathbf u_N} \frac{1}{2} \mathbf u_N^\top \tilde Q \mathbf u_N + x_0^\top \tilde H \mathbf u_N $$
+$$(1b)\quad \text{s.t. } A \mathbf u_N \leq F x_0+b. $$
 
 The solution is a piece-wise affine function of the state vector $x$ and it's stored in a tree that is orginsed like a poset (i.e., partially ordered set) defined by the indices of inequalities in (2) that become active.
 
