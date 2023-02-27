@@ -205,7 +205,7 @@ void Lattice::computeHasseDiagram()
     while (Q.size())
     {
         std::ostringstream queueElemToString;
-        // std::copy(Q.front().begin(), Q.front().end(), std::ostream_iterator<int>(queueElemToString, " "));
+        
         queueElemToString << Q.front().transpose();
         G = minimalSet(Q.front());
         Q.pop_front();
@@ -228,14 +228,12 @@ void Lattice::computeHasseDiagram()
 
                 // Only the tree
                 std::ostringstream closureToString;
-                // std::copy(closure.begin(), closure.end(), std::ostream_iterator<int>(closureToString, " "));
                 closureToString << closure.transpose();
                 m_graphSource.emplace_back(queueElemToString.str());
                 m_graphTarget.emplace_back(closureToString.str());
             }
             // Entire graph
             // std::ostringstream closureToString;
-            // std::copy(closure.begin(), closure.end(), std::ostream_iterator<int>(closureToString, " "));
             // m_graphSource.emplace_back(queueElemToString.str());
             // m_graphTarget.emplace_back(closureToString.str());
         }
@@ -327,18 +325,8 @@ void Lattice::compute_kSkeleton(unsigned int dim)
 
 std::vector<Eigen::VectorXi> Lattice::hasseDiagram()
 {
-    if (!m_faceLattice.size())
-    {
+    if (!m_faceLattice.size()) {
         computeHasseDiagram();
-
-        // std::cout << "\nSource\n";
-        // for (int i = 0; i < m_graphSource.size(); i++)
-        //     std::cout << "\"" << m_graphSource[i] << "\", ";
-
-        // std::cout << "\nTarget\n";
-        // for (int i = 0; i < m_graphTarget.size(); i++)
-        //     std::cout << "\"" << m_graphTarget[i] << "\", ";
-        // std::cout << "\n";
     }
 
     return m_faceLattice;
@@ -399,28 +387,4 @@ Eigen::VectorXi Lattice::fVector()
 std::vector<Eigen::VectorXi> Lattice::getActiveIndMx()
 {
     return m_activeIndices;
-}
-
-void Lattice::vrep2hrep(const Eigen::MatrixXd & V, Eigen::MatrixXd & A, Eigen::VectorXd & b)
-{
-    // // Find the mean of all vertices
-    // Eigen::VectorXd mean = V.colwise().mean();
-
-    // // Subtract the mean from all vertices
-    // Eigen::MatrixXd V_centered = V.rowwise() - mean.transpose();
-
-    // // Find the covariance matrix
-    // Eigen::MatrixXd cov = (V_Center.adjoint() * V_Center) / double(V.rows() - 1);
-
-    // // Find the eigenvector corresponding to the smallest eigenvalue
-    // Eigen::SelfAdjointEigenSolver<MatrixXd> eigenSolver(cov);
-    // Eigen::VectorXd normal = eigenSolver.eigenvectors().col(0);
-
-    // // Normalize the normal vector
-    // normal.normalize();
-
-    // // Define the hyperplane coefficients
-    // VectorXd A(normal.rows());
-    // double b = normal.dot(mean);
-    // A = normal;
 }

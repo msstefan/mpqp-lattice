@@ -20,10 +20,6 @@ typedef Eigen::Vector<bool, Eigen::Dynamic> VectorXb;
 typedef Eigen::IndexedView<MatrixXb, Eigen::internal::AllRange<-1>, Eigen::VectorXi> BlockMatrixXb;
 #endif
 
-/**
- * @brief
- *
- */
 class Lattice
 {
 private:
@@ -42,54 +38,17 @@ private:
     int m_nineq, m_dim;
     int m_nvert;
 
-    /**
-     * @brief
-     *
-     */
     void computeIncidenceMatrix();
-
-    /**
-     * @brief
-     *
-     * @param S
-     * @return Eigen::VectorXi
-     */
     Eigen::VectorXi closureMap(const Eigen::VectorXi &S);
-
-    /**
-     * @brief
-     *
-     * @param H
-     * @return std::vector<Eigen::VectorXi>
-     */
     std::vector<Eigen::VectorXi> minimalSet(const Eigen::VectorXi &H);
-
-    /**
-     * @brief 
-     * 
-     * @param v 
-     * @param item 
-     * @return int 
-     */
     int contains(const std::vector<Eigen::VectorXi> &v, const Eigen::VectorXi &item);
-
-    /**
-     * @brief 
-     * 
-     */
     void computeHasseDiagram();
-
     void compute_kSkeleton(unsigned int dim);
-
-    /**
-     * @brief 
-     * 
-     */
     void computeFVector();
-
     void computeReducedFVector();
 
 public:
+
     /**
      * @brief Construct a new Lattice object
      * 
@@ -97,29 +56,29 @@ public:
     Lattice() = default;
 
     /**
-     * @brief Construct a new Lattice object
+     * @brief Construct a new Lattice object from the H-representation Ax <= b and the vertex matrix
      * 
-     * @param A 
-     * @param b 
-     * @param V 
+     * @param A A matrix of the H-representation
+     * @param b b matrix of the H-representation
+     * @param V vertex matrix
      */
     Lattice(const Eigen::MatrixXd &A, const Eigen::VectorXd &b, const Eigen::MatrixXd &V);
 
     /**
-     * @brief 
+     * @brief Computes the entire Hasse diagram
      * 
-     * @return std::vector<Eigen::VectorXi> 
+     * @return std::vector<Eigen::VectorXi> stack with faces of P
      */
     std::vector<Eigen::VectorXi> hasseDiagram();
 
     /**
-     * @brief 
+     * @brief Computes the f-vector
      * 
-     * @return Eigen::VectorXi 
+     * @return Eigen::VectorXi the f-vector
      */
     Eigen::VectorXi fVector();
 
-    Eigen::VectorXi reducedFVector();
+    // Eigen::VectorXi reducedFVector();
 
     /**
      * @brief 
@@ -137,22 +96,13 @@ public:
     std::vector<Eigen::VectorXi> getActiveIndMx();
 
     /**
-     * @brief 
+     * @brief Execution time.
      * 
      */
     std::chrono::duration<double, std::milli> p_executionTime;
-
-    /**
-     * @brief 
-     * 
-     * @param V 
-     * @param A 
-     * @param b 
-     */
-    void vrep2hrep(const Eigen::MatrixXd & V, Eigen::MatrixXd & A, Eigen::VectorXd & b);
     
     /**
-     * @brief 
+     * @brief Face lattice graph
      * 
      */
     Graph latticeGraph;

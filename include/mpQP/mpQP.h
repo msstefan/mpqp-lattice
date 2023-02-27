@@ -7,7 +7,6 @@
  */
 
 #pragma once
-// #include "Lattice.h"
 #include "Polyhedron.h"
 #include "Graph.h"
 #include <set>
@@ -31,24 +30,19 @@ class mpQP {
 
 private:
     int m_nineq, m_predN, m_dx, m_du, m_colsF;
-    // Lattice methods
+
     MatrixXb m_incidenceMx;
     int m_nvert, m_dim;
-    //
+
     Eigen::MatrixXd m_proA;
     Eigen::VectorXd m_prob;
     Eigen::MatrixXd m_proF;
     Eigen::MatrixXd m_proQ;
     Eigen::MatrixXd m_proHt;
     Eigen::MatrixXd m_Qi; 
-    //
     Eigen::MatrixXd m_ldom_AHRep;
     Eigen::MatrixXd m_ldom_VRep;
-    /* 
-    * Eigen::MatrixXd m_ldom_bHRep; //it's actually m_prob
-    */
     Eigen::Polyhedron m_cddWrapper;
-    //
     Eigen::MatrixXd m_polar_VRep;
     Eigen::MatrixXd m_polar_AHRep;
     Eigen::VectorXd m_polar_bHRep;
@@ -57,30 +51,8 @@ private:
     Eigen::MatrixXd null_isempty(T & mx, Eigen::MatrixXd & G,  Eigen::FullPivLU<Eigen::MatrixXd> & lu);
 
     bool zeroIsContained(Eigen::MatrixXd Z, Eigen::VectorXd & b);
-
-    /**
-     * @brief
-     *
-     * @param S
-     * @return Eigen::VectorXi
-     */
     Eigen::VectorXi closureMap(const Eigen::VectorXi &S);
-
-    /**
-     * @brief
-     *
-     * @param H
-     * @return std::vector<Eigen::VectorXi>
-     */
     std::vector<Eigen::VectorXi> minimalSet(const Eigen::VectorXi &H);
-
-    /**
-     * @brief 
-     * 
-     * @param v 
-     * @param item 
-     * @return int 
-     */
     int contains(const std::vector<Eigen::VectorXi> &v, const Eigen::VectorXi &item);
 
 public:
@@ -91,36 +63,36 @@ public:
     mpQP() = default;
 
     /**
-     * @brief 
+     * @brief Reads the input from a binary file.
      * 
-     * @param filename 
+     * @param filename the input file
      */
     void readBinaryInput(const char * filename);
 
     /**
-     * @brief 
+     * @brief Solves the mpQP problem
      * 
      */
     void solve_mpQP();
 
     /**
-     * @brief 
+     * @brief Compute a critical region
      * 
-     * @param CR_AHRep 
-     * @param CR_bHRep 
-     * @param active 
-     * @return int 
+     * @param CR_AHRep A matrix of the critical region's H-representation
+     * @param CR_bHRep b vector of the critical region's H-representation
+     * @param active Set of active indices
+     * @return 1 if the region can be created and is nonempty
      */
     int computeCR(Eigen::MatrixXd & CR_AHRep, Eigen::VectorXd & CR_bHRep, Eigen::VectorXi & active);
 
     /**
-     * @brief 
+     * @brief A set o critical regions.
      * 
      */
     std::set<struct mpQPSolution> criticalRegions;  
 
     /**
-     * @brief 
+     * @brief The solution poset.
      * 
      */
     Graph postree;

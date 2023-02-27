@@ -478,7 +478,6 @@ bool mpQP::zeroIsContained(Eigen::MatrixXd Z, Eigen::VectorXd & b)
     return true;
 }
 
-// Lattice methods
 // ToDo: use igl::slice instead of igl::find
 Eigen::VectorXi mpQP::closureMap(const Eigen::VectorXi &S)
 {

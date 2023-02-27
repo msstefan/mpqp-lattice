@@ -1,26 +1,22 @@
+/*
+ * Graph.h
+ *
+ *      Authors: Stefan S. Mihai, Florin Stoican
+ *      Department of Automatic Control and Systems Engineering
+ *          at "Politehnica" University of Bucharest
+ */
+
 #pragma once
 
 #include <map>
 #include <vector>
 #include <string>
-// #include <boost/archive/binary_oarchive.hpp>
-// #include <boost/serialization/export.hpp>
 
 class Graph {
 
 private:
-    /**
-     * @brief 
-     * 
-     */
     std::map<std::string, std::vector<std::string>> m_adjacency_list;
 
-    // friend class boost::serialization::access;
-    // template<typename Archive>
-    // void serialize(Archive & ar, const unsigned int version)
-    // {
-    //     ar & (*this);
-    // }
 public:
     /**
      * @brief Construct a new Graph object
@@ -29,92 +25,31 @@ public:
     Graph() = default;
 
     /**
-     * @brief 
+     * @brief Add a new edge in the graph
      * 
-     * @param source 
-     * @param target 
+     * @param source Source node
+     * @param target Target node
      */
     void addEdge(const std::string & source, const std::string & target);
 
     /**
-     * @brief 
+     * @brief Print the elements of the graph
      * 
      */
     void printGraph() const;
 
     /**
-     * @brief 
+     * @brief Crate a .dot file for Graphviz
      * 
      */
     void toDotFile(const std::string & filename) const;
 
     /**
-     * @brief 
+     * @brief Check if an element exists in the graph.
      * 
-     * @param element 
-     * @return true 
-     * @return false 
+     * @param element Element to be searched.
+     * @return true if it exists
+     * @return false if the element cannot be found
      */
     bool exists(const std::string& element);
-};
-
-/**
- * ToDo: refactor this section. Memory deallocation needs to be implemented!
- * 
- */
-
-struct PosetNode {
-    int id;
-    std::string subset;
-    PosetNode* left;
-    PosetNode* right;
-
-    PosetNode(const std::string & subset) : subset(subset), left(nullptr), right(nullptr), id(0) {}
-};
-
-/**
- * @brief 
- * 
- */
-class Poset {
-private:
-    bool subset_is_contained(const std::string & lhs, const std::string & rhs);
-    PosetNode* m_root;
-    void freeMemory(PosetNode* node);
-
-public:
-    /**
-     * @brief Construct a new Poset object
-     * 
-     */
-    Poset();
-
-    /**
-     * @brief 
-     * 
-     * @param subset 
-     * @return Node* 
-     */
-    PosetNode* insert(const std::string & subset);
-
-    /**
-     * @brief 
-     * 
-     */
-    void destroy();
-
-    /**
-     * @brief 
-     * 
-     * @param node 
-     * @param out 
-     */
-    void toDotFile(PosetNode* node, std::ofstream& out);
-
-    /**
-     * @brief 
-     * 
-     * @param filename 
-     */
-    void writeDotFile(const std::string& filename);
 };
