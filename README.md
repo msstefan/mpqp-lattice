@@ -7,7 +7,7 @@ $$\quad \text{s.t. } A \mathbf u_N \leq F x_0+b.\quad (1b)$$
 The solution is a piece-wise affine function of the state vector $x_0$ and it's stored in a tree that is orginsed like a poset (i.e., partially ordered set) defined by the indices of inequalities in (2) that become active.
 
 Our algorithm exploits the geometrical properties of the problem [1] by constructing the face-lattice of the lifted feasible domain described by the polytope
-$$ P = \Big\{ x: \begin{bmatrix} A& -F\end{bmatrix} x \leq b\Big\} .\quad (2)$$
+$$ P = \Big\{ x: [A\ -F] x \leq b\Big\} .\quad (2)$$
 
 ## Usage
 The toolbox can be used in two ways:
