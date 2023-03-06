@@ -1,0 +1,23 @@
+clc, clear, close all
+
+data = load("example_data.mat");
+
+% Create the lifted domain
+ldom = Polyhedron([data.problem.A -data.problem.F], data.problem.b).minHRep();
+
+V_polar = (ldom.A ./ ldom.b).';
+P_polar = Polyhedron(V_polar.');
+
+% Compute the mpQP solution using the modified face lattice algorithm
+tol = 1e-6;
+
+% vertex-facet incidence matrix
+A   = (abs(P_polar.A * V_polar - P_polar.b) <= tol);
+
+% initialize the 'queue' and the solution stack L
+Q{1} = [];
+L = digraph;
+
+while isempty(Q) ~= 1
+end
+
