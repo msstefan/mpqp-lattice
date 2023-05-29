@@ -1,33 +1,39 @@
 clc, clear, close all
 
+import java.util.LinkedList
+
 % data = load("mpQP_test_2.mat");
 data = load("example_data.mat");
 
-% Create the lifted domain
-ldom = Polyhedron([data.problem.A -data.problem.F], data.problem.b);
+% Create the queue
+Q = LinkedList();
 
 tic
-V_polar = (ldom.A ./ ldom.b).';
-P_polar = Polyhedron(V_polar.');
+% Create the lifted domain
+V_polar = ([data.problem.A -data.problem.F] ./ data.problem.b).';
 
 % Compute the mpQP solution using the modified face lattice algorithm
 tol = 1e-6;
 
 % vertex-facet incidence matrix
-A   = (abs(P_polar.A * V_polar - P_polar.b) <= tol);
+hull = convhulln(V_polar', {'Qt','Qx'});
+nineq = size(hull,1);
+A = false(nineq, size(V_polar,2));
+for i = 1:nineq
+    A(i, hull(i,:)) = true(1);
+end
 
 % initialize the 'queue' and the solution stack L
-Q{1} = [];
+% Q{1} = [];
+Q.add([]);
 L = digraph;
 L = addnode(L, cellstr(strjoin(string([]))));
 n = size(V_polar,2);
 solutions = 1;
 
-while ~isempty(Q)
+while Q.size() > 0
     % Extract the 1st element from Q
-    H = Q{1};
-    % Remove the element from Q
-    Q(1) = [];
+    H = Q.remove();
     % Compute minimal sets
     G = minimal_sets(H,A,n);
     % Compute size
@@ -52,7 +58,7 @@ while ~isempty(Q)
             end
             % If the rank condition passes and the CR is not empty then
             % add to queue
-            Q{end + 1} = closure;
+            Q.add(closure);
             solutions = solutions + 1;
         end
         % add to solution graph
