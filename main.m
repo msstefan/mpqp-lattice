@@ -19,9 +19,10 @@ tol = 1e-6;
 hull = convhulln(V_polar', {'Qt','Qx'});
 nineq = size(hull,1);
 A = false(nineq, size(V_polar,2));
-for i = 1:nineq
-    A(i, hull(i,:)) = true(1);
-end
+% create a matrix of repeated column indices
+colIndexMatrix = repmat((1:nineq)', 1, size(hull, 2));
+% convert subscripts to linear indices and set the corresponding elements to true
+A(sub2ind(size(A), colIndexMatrix, hull)) = true;
 
 % initialize the 'queue' and the solution stack L
 % Q{1} = [];
